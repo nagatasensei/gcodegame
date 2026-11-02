@@ -18,7 +18,17 @@
     --ms-texto-suave: #526184;
     --ms-borda: rgba(38, 65, 150, 0.18);
   }
-  .simulator-hero { padding-block: clamp(3rem, 8vw, 6rem); }
+  .simulator-hero {
+    padding-block: clamp(3rem, 8vw, 6rem);
+    background-image:
+      linear-gradient(90deg, rgba(25, 43, 100, 0.88), rgba(25, 43, 100, 0.5)),
+      url("img/Hero_Alunos.webp");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .simulator-footer { padding-top: 0; }
+  .simulator-footer .ms-footer__legal { padding-block: 0.75rem; text-align: center; }
   .simulator-hero .ms-lead { color: rgba(255, 255, 255, 0.88); }
   .challenge-instructions { max-width: 70ch; margin-top: 1.5rem; color: rgba(255, 255, 255, 0.92); }
   .challenge-instructions p { margin-bottom: 0.5rem; }
@@ -109,6 +119,13 @@
     </div>
   </div>
 </main>
+<footer class="ms-footer simulator-footer">
+  <div class="container ms-container">
+    <div class="ms-footer__legal">
+      <p class="mb-0">Desafio da Ender 3 - desenvolvido por Prof.Leandro Nagata - Todos os direitos reservados</p>
+    </div>
+  </div>
+</footer>
 <script src="js/ender3.js"></script>
 </body>
 </html>
