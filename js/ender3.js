@@ -38,7 +38,7 @@ function validateCoordinates() {
 // Initial head position (home)
 let pos = { x: 0, y: 0 };
 // G-code string – start with homing and absolute positioning
-let gcode = 'G28 ; home all axes\nG90 ; absolute positioning\nG1 Z30 ; set Z to 30 mm\n';
+let gcode = 'G28 ; home all axes\nG90 ; absolute positioning\nG1 Z30 ; set Z to 30 mm\nG1 Z30; set Z to 30mm \n';
 gcodeDisplay.textContent = gcode;
 
 function drawBed() {
