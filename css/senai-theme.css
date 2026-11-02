@@ -1,0 +1,624 @@
+/*!
+ * SENAI Theme — baseado no Manual de Marcas do Sistema Indústria (v1.0, 05/08/2024)
+ * e na estrutura/estética do site Mundo SENAI.
+ *
+ * Uso: <link rel="stylesheet" href="senai-theme.css"> + <script src="senai-theme.js" defer></script>
+ * Prefixo de todas as classes: .ms-
+ */
+
+/* ==========================================================================
+   1. FONTES
+   Manual (p.5): Neo Sans Pro Black Italic (títulos/siglas) e Neo Sans Pro Italic (apoio).
+   - Se a fonte oficial estiver instalada ou hospedada, ela é usada automaticamente.
+   - Caso contrário, cai para Exo 2 (Google Fonts), a alternativa gratuita mais próxima.
+   Para hospedar a fonte oficial, acrescente url("fonts/NeoSansPro-....woff2") nos src abaixo.
+   ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700;1,800;1,900&display=swap");
+
+@font-face {
+  font-family: "Neo Sans Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Neo Sans Pro"), local("NeoSansPro-Regular"), local("Neo Sans Pro Regular");
+}
+@font-face {
+  font-family: "Neo Sans Pro";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Neo Sans Pro Italic"), local("NeoSansPro-Italic");
+}
+@font-face {
+  font-family: "Neo Sans Pro";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local("Neo Sans Pro Bold"), local("NeoSansPro-Bold");
+}
+@font-face {
+  font-family: "Neo Sans Pro";
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: local("Neo Sans Pro Black Italic"), local("NeoSansPro-BlackItalic"), local("Neosans Pro Black Italic");
+}
+
+/* ==========================================================================
+   2. TOKENS
+   ========================================================================== */
+:root {
+  /* Cores oficiais (Manual p.8) */
+  --ms-azul-escuro: #164194;   /* C100 M80 Y0 K0 · Pantone 293 C */
+  --ms-azul-claro: #008BD2;    /* C100 M20 Y0 K0 · Pantone Medium Blue C */
+  --ms-verde: #52AE32;         /* SESI · Pantone 361 C */
+  --ms-laranja: #E84910;       /* SENAI · Pantone Orange 021 C */
+  --ms-verde-agua: #6CC2BA;    /* IEL · Pantone 7472 C */
+
+  /* Derivadas (apoio de interface — não são cores de marca) */
+  --ms-azul-noite: #0D2A6B;
+  --ms-laranja-escuro: #C93D0A;
+  --ms-gelo: #F2F6FB;
+  --ms-branco: #FFFFFF;
+  --ms-texto: #16233F;
+  --ms-texto-suave: #52607A;
+  --ms-borda: rgba(22, 65, 148, 0.14);
+
+  /* Tipografia */
+  --ms-font-display: "Neo Sans Pro", "Exo 2", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ms-font-body: "Neo Sans Pro", "Exo 2", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Escala tipográfica fluida */
+  --ms-fs-hero: clamp(2.5rem, 1.2rem + 6vw, 5rem);
+  --ms-fs-h2: clamp(2rem, 1.2rem + 3.4vw, 3.5rem);
+  --ms-fs-h3: clamp(1.35rem, 1.1rem + 1.1vw, 1.9rem);
+  --ms-fs-lead: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+  --ms-fs-body: 1.0625rem;
+  --ms-fs-small: 0.9rem;
+
+  /* Raios: cantos arredondados são o traço da modernização da marca (Manual p.3) */
+  --ms-r-sm: 12px;
+  --ms-r-md: 20px;
+  --ms-r-lg: 32px;
+  --ms-r-pill: 999px;
+
+  /* Layout */
+  --ms-container: 1200px;
+  --ms-gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --ms-section-y: clamp(4rem, 8vw, 7rem);
+  --ms-header-h: 76px; /* o JS atualiza com a altura real */
+  --ms-slant: clamp(36px, 6vw, 88px);
+
+  --ms-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ==========================================================================
+   3. BASE
+   ========================================================================== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--ms-header-h) + 12px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body.ms-body,
+.ms-body {
+  margin: 0;
+  font-family: var(--ms-font-body);
+  font-size: var(--ms-fs-body);
+  line-height: 1.6;
+  color: var(--ms-texto);
+  background: var(--ms-branco);
+  -webkit-font-smoothing: antialiased;
+}
+
+.ms-body img { max-width: 100%; height: auto; }
+.ms-body a { color: var(--ms-azul-claro); }
+
+:where(.ms-body) :focus-visible {
+  outline: 3px solid var(--ms-azul-claro);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.ms-skip {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 200;
+  padding: 0.75rem 1.25rem;
+  background: var(--ms-laranja);
+  color: #fff;
+  font-weight: 700;
+  border-radius: var(--ms-r-pill);
+  transition: top 0.2s;
+}
+.ms-skip:focus { top: 1rem; }
+
+/* ==========================================================================
+   4. TIPOGRAFIA
+   Padrão do site: título em peso alto e palavras de destaque em itálico colorido.
+   Padrão do manual: tudo em Black Italic. Use .ms-title--italic para este segundo.
+   ========================================================================== */
+.ms-title,
+.ms-h1,
+.ms-h2,
+.ms-h3 {
+  font-family: var(--ms-font-display);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5em;
+  text-wrap: balance;
+}
+.ms-h1 { font-size: var(--ms-fs-hero); }
+.ms-h2 { font-size: var(--ms-fs-h2); }
+.ms-h3 { font-size: var(--ms-fs-h3); line-height: 1.15; }
+
+.ms-title--italic { font-style: italic; font-weight: 900; }
+.ms-upper { text-transform: uppercase; }
+
+/* Palavra de destaque dentro do título: <em> ou .ms-em */
+.ms-h1 em, .ms-h2 em, .ms-h3 em, .ms-title em, .ms-em {
+  font-style: italic;
+  font-weight: 900;
+  color: var(--ms-em-color, var(--ms-azul-claro));
+}
+
+/* Rótulo curto acima de títulos de seção (ex.: PROGRAMAÇÃO, FAQ) */
+.ms-eyebrow {
+  display: inline-block;
+  margin: 0 0 1rem;
+  font-family: var(--ms-font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: var(--ms-fs-small);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ms-laranja);
+}
+
+.ms-lead { font-size: var(--ms-fs-lead); line-height: 1.5; max-width: 60ch; }
+.ms-muted { color: var(--ms-texto-suave); }
+.ms-prose { max-width: 70ch; }
+
+/* ==========================================================================
+   5. LAYOUT E SEÇÕES
+   ========================================================================== */
+.ms-container {
+  width: 100%;
+  max-width: calc(var(--ms-container) + 2 * var(--ms-gutter));
+  margin-inline: auto;
+  padding-inline: var(--ms-gutter);
+}
+
+.ms-section { padding-block: var(--ms-section-y); position: relative; }
+.ms-section--gelo { background: var(--ms-gelo); }
+.ms-section--azul {
+  background: var(--ms-azul-escuro);
+  color: #fff;
+  --ms-em-color: var(--ms-laranja);
+}
+.ms-section--claro {
+  background: var(--ms-azul-claro);
+  color: #fff;
+  --ms-em-color: #fff;
+}
+.ms-section--azul .ms-eyebrow,
+.ms-section--claro .ms-eyebrow { color: #fff; }
+
+/* Corte diagonal (assinatura gráfica do manual: faixa branca inclinada) */
+.ms-section--slant {
+  margin-top: calc(var(--ms-slant) * -1);
+  padding-top: calc(var(--ms-section-y) + var(--ms-slant));
+  clip-path: polygon(0 var(--ms-slant), 100% 0, 100% 100%, 0 100%);
+}
+
+.ms-grid { display: grid; gap: clamp(1.25rem, 3vw, 2rem); }
+.ms-grid--2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); align-items: center; }
+.ms-grid--3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.ms-grid--4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+
+.ms-stack > * + * { margin-top: 1rem; }
+.ms-center { text-align: center; margin-inline: auto; }
+
+/* ==========================================================================
+   6. BOTÕES
+   Referência do site: "QUERO PARTICIPAR" — pílula, itálico, caixa-alta, laranja SENAI.
+   Contraste: branco sobre #E84910 = 3,9:1 (ok só para texto grande/negrito ≥ 18,6px,
+   por isso o tamanho padrão é 1,2rem). No hover usa-se o laranja escuro (5:1).
+   ========================================================================== */
+.ms-btn {
+  --btn-bg: var(--ms-laranja);
+  --btn-fg: #fff;
+  --btn-bg-hover: var(--ms-laranja-escuro);
+  --btn-fg-hover: #fff;
+  --btn-border: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: 3.5rem;
+  padding: 0.75rem 2.25rem;
+  font-family: var(--ms-font-display);
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 1;
+  color: var(--btn-fg);
+  background: var(--btn-bg);
+  border: 2px solid var(--btn-border);
+  border-radius: var(--ms-r-pill);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s var(--ms-ease);
+}
+.ms-btn:hover,
+.ms-btn:focus-visible {
+  background: var(--btn-bg-hover);
+  color: var(--btn-fg-hover);
+  transform: translateY(-2px);
+}
+.ms-btn:active { transform: translateY(0); }
+.ms-btn[disabled],
+.ms-btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+
+.ms-btn--azul   { --btn-bg: var(--ms-azul-escuro); --btn-bg-hover: var(--ms-azul-noite); }
+.ms-btn--claro  { --btn-bg: var(--ms-azul-claro);  --btn-bg-hover: var(--ms-azul-escuro); }
+.ms-btn--branco { --btn-bg: #fff; --btn-fg: var(--ms-azul-escuro); --btn-bg-hover: var(--ms-gelo); --btn-fg-hover: var(--ms-azul-noite); }
+.ms-btn--outline {
+  --btn-bg: transparent;
+  --btn-fg: var(--ms-azul-escuro);
+  --btn-border: var(--ms-azul-escuro);
+  --btn-bg-hover: var(--ms-azul-escuro);
+  --btn-fg-hover: #fff;
+}
+.ms-section--azul .ms-btn--outline,
+.ms-section--claro .ms-btn--outline,
+.ms-hero .ms-btn--outline {
+  --btn-fg: #fff;
+  --btn-border: #fff;
+  --btn-bg-hover: #fff;
+  --btn-fg-hover: var(--ms-azul-escuro);
+}
+.ms-btn--sm { min-height: 2.75rem; padding: 0.5rem 1.5rem; font-size: 1rem; }
+.ms-btn--lg { min-height: 4rem; padding: 1rem 3rem; font-size: 1.35rem; }
+.ms-btn--block { display: flex; width: 100%; }
+
+/* ==========================================================================
+   7. CABEÇALHO E NAVEGAÇÃO
+   ========================================================================== */
+.ms-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  color: #fff;
+  transition: background-color 0.25s, box-shadow 0.25s;
+}
+.ms-header.is-scrolled,
+.ms-header.is-open {
+  background: var(--ms-azul-escuro);
+  box-shadow: 0 6px 24px rgba(13, 42, 107, 0.25);
+}
+.ms-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  min-height: var(--ms-header-h);
+}
+.ms-header__cta { margin-left: auto; }
+
+.ms-nav { display: flex; align-items: center; gap: 0.25rem; margin-left: 1rem; }
+.ms-nav a {
+  position: relative;
+  padding: 0.5rem 0.9rem;
+  font-family: var(--ms-font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+}
+.ms-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.1rem;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--ms-laranja);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ms-ease);
+}
+.ms-nav a:hover::after,
+.ms-nav a.is-active::after { transform: scaleX(1); }
+
+.ms-nav-toggle {
+  display: none;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  margin-left: auto;
+  color: #fff;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--ms-r-pill);
+  cursor: pointer;
+}
+.ms-nav-toggle span,
+.ms-nav-toggle span::before,
+.ms-nav-toggle span::after {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  content: "";
+  position: relative;
+  margin-inline: auto;
+  transition: transform 0.25s, top 0.25s;
+}
+.ms-nav-toggle span::before { position: absolute; top: -7px; left: 0; }
+.ms-nav-toggle span::after  { position: absolute; top: 7px; left: 0; }
+.ms-header.is-open .ms-nav-toggle span { background: transparent; }
+.ms-header.is-open .ms-nav-toggle span::before { top: 0; transform: rotate(45deg); }
+.ms-header.is-open .ms-nav-toggle span::after  { top: 0; transform: rotate(-45deg); }
+
+@media (max-width: 960px) {
+  .ms-nav-toggle { display: block; }
+  .ms-header__cta { display: none; }
+  .ms-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 0;
+    padding: 0.5rem var(--ms-gutter) 1.5rem;
+    background: var(--ms-azul-escuro);
+    border-radius: 0 0 var(--ms-r-md) var(--ms-r-md);
+    display: none;
+  }
+  .ms-header.is-open .ms-nav { display: flex; }
+  .ms-nav a { padding: 0.9rem 0; font-size: 1.1rem; }
+  .ms-nav a::after { left: 0; right: auto; width: 3rem; }
+}
+
+/* ==========================================================================
+   8. LOGO — regras do Manual (p.12–13)
+   Redução máxima digital: 36px desktop · 30px tablet · 24px smartphone.
+   Área de proteção = 2x, com x = pingo do "i" = 1/4 da altura da marca → altura/2 em volta.
+   ========================================================================== */
+.ms-logo {
+  --ms-logo-h: 36px;
+  display: inline-block;
+  line-height: 0;
+  padding: calc(var(--ms-logo-h) / 2);
+}
+.ms-logo img,
+.ms-logo svg { display: block; height: var(--ms-logo-h); width: auto; }
+@media (max-width: 1023px) { .ms-logo { --ms-logo-h: 30px; } }
+@media (max-width: 767px)  { .ms-logo { --ms-logo-h: 24px; } }
+.ms-logo--lg { --ms-logo-h: 56px; }
+/* Em cards de redes sociais: mínimo de 50px de altura e 24px de margem */
+.ms-logo--card { --ms-logo-h: 50px; padding: 24px; }
+
+/* Faixa das quatro cores (rodapé de cada página do manual) */
+.ms-colorbar { display: flex; gap: 12px; height: 18px; }
+.ms-colorbar span { flex: 1; max-width: 150px; border-radius: 18px 18px 0 0; }
+.ms-colorbar span:nth-child(1) { background: var(--ms-azul-claro); }
+.ms-colorbar span:nth-child(2) { background: var(--ms-verde); }
+.ms-colorbar span:nth-child(3) { background: var(--ms-laranja); }
+.ms-colorbar span:nth-child(4) { background: var(--ms-verde-agua); }
+
+/* ==========================================================================
+   9. HERO
+   ========================================================================== */
+.ms-hero {
+  position: relative;
+  overflow: hidden;
+  padding: calc(var(--ms-header-h) + clamp(2.5rem, 6vw, 5rem)) 0 calc(var(--ms-slant) + 3rem);
+  color: #fff;
+  background: var(--ms-azul-escuro);
+  --ms-em-color: var(--ms-laranja);
+}
+/* Variante inspirada na capa do manual: painel azul-claro + faixa branca + painel azul-escuro */
+.ms-hero--diagonal {
+  background: linear-gradient(
+    145deg,
+    var(--ms-azul-claro) 0 46%,
+    #fff 46% 48%,
+    var(--ms-azul-escuro) 48% 100%
+  );
+  --ms-em-color: #fff;
+}
+.ms-hero__date {
+  display: inline-block;
+  margin: 0 0 1.5rem;
+  padding: 0.5rem 1.25rem;
+  font-family: var(--ms-font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--ms-azul-escuro);
+  background: #fff;
+  border-radius: var(--ms-r-pill);
+}
+.ms-hero__list { list-style: none; margin: 0 0 2rem; padding: 0; max-width: 46ch; font-size: var(--ms-fs-lead); }
+
+/* ==========================================================================
+   10. CARDS, LISTAS, CHIPS
+   ========================================================================== */
+.ms-card {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  background: #fff;
+  border: 1px solid var(--ms-borda);
+  border-radius: var(--ms-r-lg);
+}
+.ms-card--azul   { background: var(--ms-azul-escuro); color: #fff; border-color: transparent; --ms-em-color: var(--ms-laranja); }
+.ms-card--claro  { background: var(--ms-azul-claro);  color: #fff; border-color: transparent; --ms-em-color: #fff; }
+.ms-card--gelo   { background: var(--ms-gelo); border-color: transparent; }
+.ms-card--topo   { border-top: 8px solid var(--ms-card-accent, var(--ms-azul-claro)); }
+.ms-card--laranja { --ms-card-accent: var(--ms-laranja); }
+.ms-card--verde   { --ms-card-accent: var(--ms-verde); }
+.ms-card--agua    { --ms-card-accent: var(--ms-verde-agua); }
+
+.ms-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+.ms-list li { display: flex; gap: 0.8rem; align-items: flex-start; }
+.ms-list li::before {
+  content: "";
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 0.1rem;
+  border-radius: 50%;
+  background: var(--ms-azul-claro) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center / 70% no-repeat;
+}
+.ms-list--laranja li::before { background-color: var(--ms-laranja); }
+
+.ms-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 1rem;
+  font-family: var(--ms-font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: var(--ms-fs-small);
+  color: var(--ms-azul-escuro);
+  background: var(--ms-gelo);
+  border-radius: var(--ms-r-pill);
+}
+.ms-chip--laranja { color: #fff; background: var(--ms-laranja-escuro); }
+.ms-chip--azul    { color: #fff; background: var(--ms-azul-escuro); }
+
+/* ==========================================================================
+   11. ABAS (ex.: "Em qual momento você está?")
+   ========================================================================== */
+.ms-tabs__list { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0 0 2rem; padding: 0; list-style: none; }
+.ms-tab {
+  padding: 0.85rem 1.75rem;
+  font-family: var(--ms-font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  color: var(--ms-azul-escuro);
+  background: transparent;
+  border: 2px solid var(--ms-azul-escuro);
+  border-radius: var(--ms-r-pill);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.ms-tab:hover { background: var(--ms-gelo); }
+.ms-tab[aria-selected="true"] {
+  color: #fff;
+  background: var(--ms-laranja-escuro);
+  border-color: var(--ms-laranja-escuro);
+}
+.ms-tabpanel[hidden] { display: none; }
+
+/* ==========================================================================
+   12. FAQ / ACORDEÃO  (<details class="ms-acc">)
+   ========================================================================== */
+.ms-acc {
+  background: #fff;
+  border: 1px solid var(--ms-borda);
+  border-radius: var(--ms-r-md);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ms-acc + .ms-acc { margin-top: 0.9rem; }
+.ms-acc[open] { border-color: var(--ms-azul-claro); box-shadow: 0 0 0 3px rgba(0, 139, 210, 0.15); }
+.ms-acc > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  font-family: var(--ms-font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--ms-azul-escuro);
+  cursor: pointer;
+  list-style: none;
+}
+.ms-acc > summary::-webkit-details-marker { display: none; }
+.ms-acc > summary::after {
+  content: "";
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--ms-laranja) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E") center / 60% no-repeat;
+  transition: transform 0.25s var(--ms-ease);
+}
+.ms-acc[open] > summary::after { transform: rotate(45deg); }
+.ms-acc__body { padding: 0 1.5rem 1.5rem; color: var(--ms-texto-suave); max-width: 70ch; }
+
+/* ==========================================================================
+   13. FORMULÁRIO
+   ========================================================================== */
+.ms-field { display: grid; gap: 0.4rem; margin-bottom: 1.25rem; }
+.ms-field label { font-weight: 700; font-size: var(--ms-fs-small); color: var(--ms-azul-escuro); }
+.ms-input,
+.ms-select,
+.ms-textarea {
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.8rem 1.4rem;
+  font: inherit;
+  color: var(--ms-texto);
+  background: #fff;
+  border: 2px solid var(--ms-borda);
+  border-radius: var(--ms-r-pill);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ms-textarea { border-radius: var(--ms-r-md); min-height: 8rem; resize: vertical; }
+.ms-input:focus,
+.ms-select:focus,
+.ms-textarea:focus {
+  outline: none;
+  border-color: var(--ms-azul-claro);
+  box-shadow: 0 0 0 4px rgba(0, 139, 210, 0.2);
+}
+.ms-field.has-error .ms-input,
+.ms-field.has-error .ms-select,
+.ms-field.has-error .ms-textarea { border-color: var(--ms-laranja-escuro); }
+.ms-field__error { color: var(--ms-laranja-escuro); font-size: var(--ms-fs-small); font-weight: 700; }
+
+/* ==========================================================================
+   14. RODAPÉ
+   ========================================================================== */
+.ms-footer { background: var(--ms-azul-escuro); color: #fff; padding-top: 3rem; }
+.ms-footer a { color: #fff; }
+.ms-footer__inner { display: grid; gap: 2rem; padding-bottom: 2.5rem; }
+.ms-footer__social { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; list-style: none; margin: 0; padding: 0; }
+.ms-footer__legal { padding-block: 1.25rem; font-size: var(--ms-fs-small); border-top: 1px solid rgba(255, 255, 255, 0.2); }
+
+/* ==========================================================================
+   15. ANIMAÇÃO OPCIONAL (data-ms-reveal) — só ativa com JS e sem "reduzir movimento"
+   ========================================================================== */
+.ms-js [data-ms-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s var(--ms-ease), transform 0.6s var(--ms-ease);
+}
+.ms-js [data-ms-reveal].is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .ms-btn, .ms-nav a::after, .ms-acc > summary::after { transition: none; }
+  .ms-btn:hover { transform: none; }
+  .ms-js [data-ms-reveal] { opacity: 1; transform: none; transition: none; }
+}

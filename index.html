@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simulador Ender 3 - Vista superior</title>
+<link rel="stylesheet" href="css/senai-theme.css" />
+<style>
+  :root {
+    --ms-azul-escuro: #192B64;
+    --ms-azul-claro: #7D89FD;
+    --ms-laranja: #7D89FD;
+    --ms-azul-noite: #264196;
+    --ms-laranja-escuro: #264196;
+    --ms-gelo: #F4F5FF;
+    --ms-texto: #192B64;
+    --ms-texto-suave: #526184;
+    --ms-borda: rgba(38, 65, 150, 0.18);
+  }
+  .simulator-hero { padding-block: clamp(3rem, 8vw, 6rem); }
+  .simulator-hero .ms-lead { color: rgba(255, 255, 255, 0.88); }
+  .simulator-section { padding-block: clamp(2rem, 5vw, 4rem); }
+  .simulator-layout { grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); align-items: start; }
+  .simulator-card { height: 100%; }
+  .simulator-card > :last-child { margin-bottom: 0; }
+  #canvasContainer { position: relative; width: min(100%, 440px); aspect-ratio: 1; margin: 1.5rem auto 0; overflow: hidden; border: 2px solid var(--ms-azul-escuro); border-radius: var(--ms-r-md); background: #eee; }
+  #bedCanvas { display: block; width: 100%; height: 100%; background: #eee; }
+  #head { position: absolute; width: 10px; height: 10px; background: var(--ms-laranja); border: 2px solid #fff; border-radius: 50%; box-shadow: 0 1px 5px rgba(25, 43, 100, 0.45); transform: translate(-50%, -50%); pointer-events: none; }
+  .coordinate-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .coordinate-fields .ms-field { min-width: 0; }
+  .simulator-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .simulator-actions .ms-btn { flex: 1 1 12rem; }
+  #status { min-height: 1.6em; margin: 1rem 0 0; color: var(--ms-texto-suave); }
+  .gcode-title { margin-top: 2rem; }
+  #gcodeDisplay { min-height: 200px; max-height: 360px; margin: 1.25rem 0 0; padding: 1rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; color: #e6eaff; background: #192B64; border-radius: var(--ms-r-sm); font: 0.95rem/1.6 Consolas, "Courier New", monospace; }
+  @media (max-width: 480px) {
+    .coordinate-fields { grid-template-columns: 1fr; gap: 0; }
+    .simulator-card { padding: 1.25rem; }
+  }
+</style>
+<script src="js/senai-theme.js" defer></script>
+</head>
+<body class="ms-body">
+<header class="ms-hero simulator-hero">
+  <div class="ms-container">
+    <p class="ms-eyebrow">Simulador de impressão 3D</p>
+    <h1 class="ms-h1">Vista superior <em>Ender 3</em></h1>
+    <p class="ms-lead">Defina as coordenadas na mesa, visualize o percurso e gere o arquivo G-code do aluno.</p>
+  </div>
+</header>
+<main class="ms-section ms-section--gelo simulator-section">
+  <div class="ms-container">
+    <div class="ms-grid simulator-layout">
+      <section class="ms-card simulator-card" aria-labelledby="bedTitle">
+        <p class="ms-eyebrow">Área de trabalho</p>
+        <h2 class="ms-h3" id="bedTitle">Mesa de impressão</h2>
+        <p class="ms-muted">Área disponível: 220 × 220 mm</p>
+        <div id="canvasContainer">
+          <canvas id="bedCanvas" width="440" height="440" aria-label="Visualização superior da mesa de impressão"></canvas>
+          <div id="head"></div>
+        </div>
+      </section>
+      <section class="ms-card ms-card--top ms-card--laranja simulator-card" aria-labelledby="controlsTitle">
+        <p class="ms-eyebrow">Configuração</p>
+        <h2 class="ms-h3" id="controlsTitle">Gerar percurso</h2>
+        <form id="controls">
+          <div class="ms-field">
+            <label for="studentName">Nome do aluno</label>
+            <input class="ms-input" type="text" id="studentName" required autocomplete="name" />
+          </div>
+          <div class="coordinate-fields">
+            <div class="ms-field">
+              <label for="xInput">Coordenada X (mm)</label>
+              <input class="ms-input" type="number" id="xInput" min="0" max="220" step="0.1" required />
+            </div>
+            <div class="ms-field">
+              <label for="yInput">Coordenada Y (mm)</label>
+              <input class="ms-input" type="number" id="yInput" min="0" max="220" step="0.1" required />
+            </div>
+          </div>
+          <div class="simulator-actions">
+            <button class="ms-btn ms-btn--azul ms-btn--sm" id="addMove" type="submit">Adicionar posição</button>
+            <button class="ms-btn ms-btn--sm" id="downloadGcode" type="button" disabled>Baixar G-code</button>
+          </div>
+        </form>
+        <p id="status" role="status" aria-live="polite">Informe o nome do aluno e as coordenadas X e Y para gerar o G-code.</p>
+        <h3 class="ms-h3 gcode-title">G-code gerado</h3>
+        <pre id="gcodeDisplay"></pre>
+      </section>
+    </div>
+  </div>
+</main>
+<script src="js/ender3.js"></script>
+</body>
+</html>
