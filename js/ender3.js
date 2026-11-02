@@ -66,7 +66,8 @@ function drawBed() {
 function updateHead() {
   const displayScale = canvas.clientWidth / CANVAS_SIZE;
   headEl.style.left = (pos.x * SCALE * displayScale) + 'px';
-  headEl.style.top = (pos.y * SCALE * displayScale) + 'px';
+  // Invert Y to make origin bottom‑left
+  headEl.style.top = ((BED_SIZE - pos.y) * SCALE * displayScale) + 'px';
 }
 
 function addMove(event) {
@@ -89,8 +90,8 @@ function addMove(event) {
   ctx.strokeStyle = '#7D89FD';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(pos.x * SCALE, pos.y * SCALE);
-  ctx.lineTo(x * SCALE, y * SCALE);
+  ctx.moveTo(pos.x * SCALE, (BED_SIZE - pos.y) * SCALE);
+  ctx.lineTo(x * SCALE, (BED_SIZE - y) * SCALE);
   ctx.stroke();
 
   // Update position
@@ -101,7 +102,7 @@ function addMove(event) {
   gcode += `G1 X${x.toFixed(2)} Y${y.toFixed(2)}\nG1 Z0.2\n`;
   gcodeDisplay.textContent = gcode;
   downloadBtn.disabled = false;
-  status.textContent = `Posição X${x.toFixed(2)} Y${y.toFixed(2)} adicionada. O G-code está pronto para download.`;
+  status.innerHTML = `Posição X${x.toFixed(2)} Y${y.toFixed(2)} adicionada.<br>O G-code está pronto para download.`;
 }
 
 xInput.addEventListener('input', validateCoordinates);
