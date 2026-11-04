@@ -99,7 +99,7 @@ function addMove(event) {
   updateHead();
 
   // Append G-code
-  gcode += `G1 X${x.toFixed(2)} Y${y.toFixed(2)}\nG1 E5 F2000\nG1 Z1 S60\nG1 Z30 S60\nG1 X0 Y200 S50`;
+  gcode += `G1 X${x.toFixed(2)} Y${y.toFixed(2)}\nG1 E5 F2000\nG1 Z1 S60\nG1 Z30 S60\nG1 X0 Y200 S50\nG92 E0\nM400`;
   gcodeDisplay.textContent = gcode;
   downloadBtn.disabled = false;
   status.innerHTML = `Posição X${x.toFixed(2)} Y${y.toFixed(2)} adicionada.<br>O G-code está pronto para download.`;
