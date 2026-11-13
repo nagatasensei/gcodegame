@@ -2,6 +2,14 @@
 
 Simulador educativo de coordenadas para uma mesa de impressão 3D de 220 × 220 mm. O aluno informa uma posição, visualiza o ponto e o percurso na mesa e pode gerar um arquivo G-code.
 
+## Visão geral do projeto
+
+![Banner do projeto](img/Hero_Alunos.webp)
+
+A interface foi pensada para ser simples e didática: o aluno digita o nome e as coordenadas, observa a posição na mesa e gera um arquivo G-code pronto para download.
+
+![Tela principal do simulador](img/README-overview.svg)
+
 ## Funcionalidades
 
 - Visualização da mesa com grade de 10 mm e réguas X e Y numeradas a cada 20 mm.
@@ -20,7 +28,9 @@ python3 -m http.server 8000
 
 Depois, acesse <http://localhost:8000>. Também é possível abrir `index.html` diretamente no navegador, mas um servidor local é recomendado.
 
-## Como usar
+## Como funciona
+
+![Fluxo de uso do simulador](img/README-workflow.svg)
 
 1. Informe o nome do aluno.
 2. Digite as coordenadas X e Y desejadas, de 0 a 220 mm.
@@ -31,14 +41,16 @@ Depois, acesse <http://localhost:8000>. Também é possível abrir `index.html` 
 
 ```text
 .
-├── index.html             # Página e interface do simulador
+├── index.html                 # Página e interface do simulador
 ├── js/
-│   ├── ender3.js          # Validação, visualização e geração do G-code
-│   └── senai-theme.js     # Comportamentos compartilhados do tema
+│   ├── ender3.js              # Validação, visualização e geração do G-code
+│   └── senai-theme.js         # Comportamentos compartilhados do tema
 ├── css/
-│   └── senai-theme.css    # Estilos compartilhados
+│   └── senai-theme.css        # Estilos compartilhados
 └── img/
-    └── Hero_Alunos.webp   # Imagem de destaque
+    ├── Hero_Alunos.webp       # Imagem de destaque
+    ├── README-overview.svg    # Captura de tela da interface principal
+    └── README-workflow.svg    # Captura de tela do fluxo de uso
 ```
 
 O Bootstrap 5.3.3 é carregado por CDN, e o tema pode carregar a fonte Exo 2 do Google Fonts; esses recursos externos dependem de conexão com a internet.

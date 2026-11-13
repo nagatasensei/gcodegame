@@ -1,0 +1,68 @@
+<svg width="1400" height="820" viewBox="0 0 1400 820" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Funcionamento do simulador</title>
+  <desc id="desc">Fluxo de uso: inserir nome e coordenadas, visualizar ponto na mesa e baixar G-code.</desc>
+  <defs>
+    <linearGradient id="grad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#192b64"/>
+      <stop offset="100%" stop-color="#7d89fd"/>
+    </linearGradient>
+    <filter id="shadow2" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#192b64" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="820" fill="#f4f5ff"/>
+  <rect x="80" y="70" width="1240" height="680" rx="28" fill="#ffffff" filter="url(#shadow2)"/>
+  <text x="120" y="130" font-family="Verdana, Arial, sans-serif" font-size="34" font-weight="700" fill="#192b64">Como funciona</text>
+
+  <g>
+    <rect x="120" y="180" width="260" height="160" rx="22" fill="#edf1ff" stroke="#cdd8ff"/>
+    <circle cx="180" cy="240" r="30" fill="url(#grad)"/>
+    <text x="220" y="233" font-family="Verdana, Arial, sans-serif" font-size="26" font-weight="700" fill="#192b64">1</text>
+    <text x="145" y="290" font-family="Verdana, Arial, sans-serif" font-size="24" font-weight="700" fill="#192b64">Nome</text>
+    <text x="145" y="318" font-family="Verdana, Arial, sans-serif" font-size="18" fill="#526184">Informe o aluno</text>
+
+    <rect x="430" y="180" width="260" height="160" rx="22" fill="#edf1ff" stroke="#cdd8ff"/>
+    <circle cx="490" cy="240" r="30" fill="url(#grad)"/>
+    <text x="530" y="233" font-family="Verdana, Arial, sans-serif" font-size="26" font-weight="700" fill="#ffffff">2</text>
+    <text x="455" y="290" font-family="Verdana, Arial, sans-serif" font-size="24" font-weight="700" fill="#192b64">Coordenadas</text>
+    <text x="455" y="318" font-family="Verdana, Arial, sans-serif" font-size="18" fill="#526184">X e Y entre 0 e 220</text>
+
+    <rect x="740" y="180" width="260" height="160" rx="22" fill="#edf1ff" stroke="#cdd8ff"/>
+    <circle cx="800" cy="240" r="30" fill="url(#grad)"/>
+    <text x="840" y="233" font-family="Verdana, Arial, sans-serif" font-size="26" font-weight="700" fill="#ffffff">3</text>
+    <text x="765" y="290" font-family="Verdana, Arial, sans-serif" font-size="24" font-weight="700" fill="#192b64">Visualização</text>
+    <text x="765" y="318" font-family="Verdana, Arial, sans-serif" font-size="18" fill="#526184">Ponto e trajetória</text>
+
+    <rect x="1050" y="180" width="220" height="160" rx="22" fill="#edf1ff" stroke="#cdd8ff"/>
+    <circle cx="1110" cy="240" r="30" fill="url(#grad)"/>
+    <text x="1150" y="233" font-family="Verdana, Arial, sans-serif" font-size="26" font-weight="700" fill="#ffffff">4</text>
+    <text x="1075" y="290" font-family="Verdana, Arial, sans-serif" font-size="24" font-weight="700" fill="#192b64">G-code</text>
+    <text x="1075" y="318" font-family="Verdana, Arial, sans-serif" font-size="18" fill="#526184">Baixar arquivo</text>
+
+    <path d="M380 260 H430 M700 260 H740 M1000 260 H1050" stroke="#7d89fd" stroke-width="6" stroke-linecap="round" stroke-dasharray="8 12" fill="none"/>
+    <path d="M382 260 L380 260 M704 260 L700 260" stroke="#7d89fd" stroke-width="8" fill="none"/>
+  </g>
+
+  <g>
+    <rect x="120" y="440" width="520" height="220" rx="26" fill="#ffffff" stroke="#dfe7ff"/>
+    <text x="150" y="488" font-family="Verdana, Arial, sans-serif" font-size="28" font-weight="700" fill="#192b64">Exemplo de uso</text>
+    <rect x="150" y="520" width="90" height="28" rx="8" fill="#edf1ff"/>
+    <text x="171" y="541" font-family="Verdana, Arial, sans-serif" font-size="16" fill="#192b64">Aluno</text>
+    <rect x="260" y="520" width="150" height="28" rx="8" fill="#ffffff" stroke="#cdd8ff"/>
+    <text x="280" y="541" font-family="Verdana, Arial, sans-serif" font-size="16" fill="#526184">Maria</text>
+    <rect x="150" y="570" width="100" height="28" rx="8" fill="#edf1ff"/>
+    <text x="166" y="591" font-family="Verdana, Arial, sans-serif" font-size="16" fill="#192b64">X = 120,0</text>
+    <rect x="280" y="570" width="100" height="28" rx="8" fill="#edf1ff"/>
+    <text x="295" y="591" font-family="Verdana, Arial, sans-serif" font-size="16" fill="#192b64">Y = 80,0</text>
+    <rect x="430" y="540" width="170" height="44" rx="12" fill="#264196"/>
+    <text x="470" y="569" font-family="Verdana, Arial, sans-serif" font-size="18" fill="#ffffff" font-weight="700">Adicionar</text>
+
+    <rect x="700" y="440" width="560" height="220" rx="26" fill="#192b64"/>
+    <text x="730" y="488" font-family="Verdana, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">G-code gerado</text>
+    <text x="730" y="535" font-family="Consolas, monospace" font-size="18" fill="#dfe7ff">M104 S205 ; Set temperature at 205°C</text>
+    <text x="730" y="565" font-family="Consolas, monospace" font-size="18" fill="#dfe7ff">G28 ; home all axes</text>
+    <text x="730" y="595" font-family="Consolas, monospace" font-size="18" fill="#dfe7ff">G1 X120.00 Y80.00</text>
+    <text x="730" y="625" font-family="Consolas, monospace" font-size="18" fill="#dfe7ff">M400</text>
+  </g>
+</svg>
