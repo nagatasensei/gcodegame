@@ -38,7 +38,8 @@ function validateCoordinates() {
 // Initial head position (home)
 let pos = { x: 0, y: 0 };
 // G-code string – start with homing and absolute positioning
-let gcode = 'M104 S205 ; Set temperature at 205°C\nM109 S205 ; Wait for temperature\nG28 ; home all axes\nG90 ; absolute positioning\nG1 Z30 ; set Z to 30 mm\n';
+const gcodeHeader = 'M104 S205 ; Set temperature at 205°C\nM109 S205 ; Wait for temperature\nG28 ; home all axes\nG90 ; absolute positioning\nG1 Z30 ; set Z to 30 mm\n';
+let gcode = gcodeHeader;
 gcodeDisplay.textContent = gcode;
 
 function drawBed() {
@@ -86,11 +87,12 @@ function addMove(event) {
     return;
   }
 
-  // Draw line from previous position
+  // Redraw the path from home to the current position.
+  drawBed();
   ctx.strokeStyle = '#7D89FD';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(pos.x * SCALE, (BED_SIZE - pos.y) * SCALE);
+  ctx.moveTo(0, CANVAS_SIZE);
   ctx.lineTo(x * SCALE, (BED_SIZE - y) * SCALE);
   ctx.stroke();
 
@@ -98,11 +100,11 @@ function addMove(event) {
   pos = { x, y };
   updateHead();
 
-  // Append G-code
-  gcode += `G1 X${x.toFixed(2)} Y${y.toFixed(2)}\nG1 E5 F2000\nG1 Z1 S60\nG1 Z30 S60\nG1 X0 Y200 S50\nG92 E0\nM400`;
+  // Keep one position command and replace its coordinates on each submission.
+  gcode = `${gcodeHeader}G1 X${x.toFixed(2)} Y${y.toFixed(2)}\nG1 E5 F2000\nG1 Z1 S60\nG1 Z30 S60\nG1 X0 Y200 S50\nG92 E0\nM400`;
   gcodeDisplay.textContent = gcode;
   downloadBtn.disabled = false;
-  status.innerHTML = `Posição X${x.toFixed(2)} Y${y.toFixed(2)} adicionada.<br>O G-code está pronto para download.`;
+  status.innerHTML = `Posição X${x.toFixed(2)} Y${y.toFixed(2)} atualizada.<br>O G-code está pronto para download.`;
 }
 
 xInput.addEventListener('input', validateCoordinates);
