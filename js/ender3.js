@@ -66,6 +66,39 @@ function drawBed() {
   ctx.strokeStyle = '#264196';
   ctx.lineWidth = 2;
   ctx.strokeRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+  drawRulers();
+}
+
+function drawRulers() {
+  ctx.save();
+  ctx.strokeStyle = '#192B64';
+  ctx.fillStyle = '#192B64';
+  ctx.lineWidth = 1.5;
+  ctx.font = '12px Arial, sans-serif';
+
+  for (let value = 0; value <= BED_SIZE; value += 20) {
+    const x = value * SCALE;
+    ctx.beginPath();
+    ctx.moveTo(x, CANVAS_SIZE);
+    ctx.lineTo(x, CANVAS_SIZE - 8);
+    ctx.stroke();
+    ctx.textAlign = value === 0 ? 'left' : value === BED_SIZE ? 'right' : 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(String(value), x, CANVAS_SIZE - 9);
+
+    if (value > 0) {
+      const y = (BED_SIZE - value) * SCALE;
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(8, y);
+      ctx.stroke();
+      ctx.textAlign = 'left';
+      ctx.textBaseline = value === BED_SIZE ? 'top' : 'middle';
+      ctx.fillText(String(value), 10, y);
+    }
+  }
+
+  ctx.restore();
 }
 
 function updateHead() {
