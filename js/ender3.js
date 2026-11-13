@@ -42,6 +42,10 @@ const gcodeHeader = 'M104 S205 ; Set temperature at 205°C\nM109 S205 ; Wait for
 let gcode = gcodeHeader;
 gcodeDisplay.textContent = gcode;
 
+function buildGcode(x, y) {
+  return `${gcodeHeader}G1 X${x.toFixed(2)} Y${y.toFixed(2)}\nG1 E5 F2000\nG1 Z1 S60\nG1 Z30 S60\nG1 X0 Y200 S50\nG92 E0\nM400`;
+}
+
 function drawBed() {
   ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
   // Draw grid (10 mm spacing)
@@ -100,8 +104,10 @@ function addMove(event) {
   pos = { x, y };
   updateHead();
 
-  // Keep one position command and replace its coordinates on each submission.
-  gcode = `${gcodeHeader}G1 X${x.toFixed(2)} Y${y.toFixed(2)}\nG1 E5 F2000\nG1 Z1 S60\nG1 Z30 S60\nG1 X0 Y200 S50\nG92 E0\nM400`;
+  // Rebuild the output from scratch so previous submissions cannot accumulate.
+  gcode = '';
+  gcodeDisplay.textContent = '';
+  gcode = buildGcode(x, y);
   gcodeDisplay.textContent = gcode;
   downloadBtn.disabled = false;
   status.innerHTML = `Posição X${x.toFixed(2)} Y${y.toFixed(2)} atualizada.<br>O G-code está pronto para download.`;
